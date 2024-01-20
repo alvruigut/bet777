@@ -3,8 +3,11 @@ import requests
 from lxml import html
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-import asyncio
-from pyppeteer import launch
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+import time
 
 # Lee equipos.txt y devuelve una lista con los equipos de la Liga
 def lista_equipos():
@@ -47,114 +50,93 @@ def lista_partidos_quiniela():
         lista_partidos.append(x[1])
     return lista_partidos
 
-#Mapa de urls de estadisticas de los equipos 
+#####################################################################################################################################
+
+#urls de estadisticas de los equipos 
 def urls_estadisticas_equipos():
     res={}
     for equipo in lista_equipos():
-        if equipo == 'Girona':
+        if equipo == 'GIRONA':
             res[equipo] = 'https://www.flashscore.es/equipo/girona-fc/nNNpcUSL/'
-        elif equipo == 'Real Madrid':
+        elif equipo == 'R.MADRID':
             res[equipo] = 'https://www.flashscore.es/equipo/real-madrid/W8mj7MDD/'
-        elif equipo == 'Athletic Club':
+        elif equipo == 'ATH.CLUB':
             res[equipo] = 'https://www.flashscore.es/equipo/athletic-club/IP5zl0cJ/'
-        elif equipo == 'Barcelona':
+        elif equipo == 'BARCELONA':
             res[equipo] = 'https://www.flashscore.es/equipo/fc-barcelona/SKbpVP5K/'
-        elif equipo == 'Atlético de Madrid':
+        elif equipo == 'AT.MADRID':
             res[equipo] = 'https://www.flashscore.es/equipo/atletico-madrid/jaarqpLQ/'
-        elif equipo == 'Real Sociedad':
+        elif equipo == 'R.SOCIEDAD':
             res[equipo] = 'https://www.flashscore.es/equipo/real-sociedad/jNvak2f3/'
-        elif equipo == 'Real Betis':
+        elif equipo == 'BETIS':
             res[equipo] = 'https://www.flashscore.es/equipo/real-betis/vJbTeCGP/'
-        elif equipo == 'Valencia':
+        elif equipo == 'VALENCIA':
             res[equipo] = 'https://www.flashscore.es/equipo/valencia-cf/CQeaytrD/'
-        elif equipo == 'Cádiz':
+        elif equipo == 'CÁDIZ':
             res[equipo] = 'https://www.flashscore.es/equipo/cadiz-cf/hdWjLJUJ/'
-        elif equipo == 'Granada':
+        elif equipo == 'GRANADA':
             res[equipo] = 'https://www.flashscore.es/equipo/granada/EXuxl1xP/'
-        elif equipo == 'Almería':
+        elif equipo == 'ALMERÍA':
             res[equipo] = 'https://www.flashscore.es/equipo/ud-almeria/nF2Vy2D0/'
-        elif equipo == 'Sevilla':
+        elif equipo == 'SEVILLA':
             res[equipo] = 'https://www.flashscore.es/equipo/sevilla/h8oAv4Ts/'
-        elif equipo == 'Celta de Vigo':
+        elif equipo == 'CELTA':
             res[equipo] = 'https://www.flashscore.es/equipo/celta-vigo/8pvUZFhf/'
-        elif equipo == 'Villareal':
+        elif equipo == 'VILLARREAL':
             res[equipo] = 'https://www.flashscore.es/equipo/villarreal-cf/lUatW5jE/'
-        elif equipo == 'Mallorca':
+        elif equipo == 'MALLORCA':
             res[equipo] = 'https://www.flashscore.es/equipo/rcd-mallorca/4jDQxrbf/'
-        elif equipo == 'Osasuna':
+        elif equipo == 'OSASUNA':
             res[equipo] = 'https://www.flashscore.es/equipo/ca-osasuna/ETdxjU8a/'
-        elif equipo == 'Getafe':
+        elif equipo == 'GETAFE':
             res[equipo] = 'https://www.flashscore.es/equipo/getafe-cf/dboeiWOt/'
-        elif equipo == 'Las Palmas':
+        elif equipo == 'LAS PALMAS':
             res[equipo] = 'https://www.flashscore.es/equipo/las-palmas/IyRQC2vM/'
-        elif equipo == 'Rayo Vallecano':
+        elif equipo == 'RAYO':
             res[equipo] = 'https://www.flashscore.es/equipo/rayo-vallecano/8bcjFy6O/'
-        elif equipo == 'Alavés':
+        elif equipo == 'ALAVÉS':
             res[equipo] = 'https://www.flashscore.es/equipo/alaves/hxt57t2q/'
     return res
 
-# urls_estadisticas_equipos() devuelve un diccionario con los equipos y sus urls de estadisticas, y de esas urls vamos a extraer los codigos de las urls de las estadisticas de los partidos
-#Base url https://www.flashscore.es/partido/'codigo'/#/resumen-del-partido/resumen-del-partido
-def codido_flashcore2():
-    codigos={}
-    lista_codigos=[]
-    for equipo,url in urls_estadisticas_equipos().items():
-            respuesta = requests.get(url) # Realizar la solicitud HTTP a la página web
-            if respuesta.status_code == 200:
-                arbol = html.fromstring(respuesta.content)
-                
+#Base url_pagina_flashcore = 'https://www.flashscore.es/partido/'+codigo+'/#/resumen-del-partido/estadisticas-del-partido/0'
+#Códigos de las urls de las estadisticas de los partidos
+#Devuelve un diccionario con los codigos de los partidos de la quiniela
+def codigo_flashcore():
+    dict_codigos = {}
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument('--headless')  # Opción para ejecutar en segundo plano sin abrir una ventana del navegador
+    driver = webdriver.Chrome(options=chrome_options)
+    for equipo,url in urls_estadisticas_equipos().items() :
+        if equipo in lista_partidos_quiniela():
+            driver.get(url)    # Acceder a la página web
+            time.sleep(10)     # Esperar 10 segundos (puedes ajustar este valor según sea necesario)
 
-                elementos = arbol.xpath('//div[@class="event__match event__match--static event__match--twoLine"]')
-                for elemento in elementos:
-                    lista_codigos.append(elemento.attrib.get('id', None))
-                    codigos[equipo]=lista_codigos
-            else:
-                print(f"Error en la solicitud HTTP: {respuesta.status_code}")
-                return None
-            
-   
-
-    return respuesta
-def codigo_flashcore4():
-    driver = webdriver.Firefox()  # Asegúrate de tener el driver de Firefox (geckodriver) instalado
-    driver.get('https://www.flashscore.es/equipo/girona-fc/nNNpcUSL/')
-    
-    # Encontrar todos los elementos cuyos IDs comienzan con 'g_1_'
-    elementos = driver.find_elements(By.XPATH, '//*[starts-with(@id, "g_1_")]')
-
-    for elemento in elementos:
-        print(elemento.get_attribute('innerHTML'))  # Imprimir el contenido interior de cada elemento
-
-    driver.quit()
-
-async def codigo_flashcore():
-    browser = await launch()
-    try:
-        page = await browser.newPage()
-        await page.goto('https://www.flashscore.es/equipo/girona-fc/nNNpcUSL/')
-
-        # Esperar a que al menos un elemento cuyo ID comience con 'g_1_' esté presente en el DOM
-        await page.waitForXPath("//*[contains(@id, 'g_1_')]", {'timeout': 60000})  # Aumenta el tiempo de espera a 60 segundos
-
-        # Encontrar todos los elementos cuyos IDs comienzan con 'g_1_'
-        elementos = await page.xpath("//*[contains(@id, 'g_1_')]")
         
-        for elemento in elementos:
-            contenido = await elemento.getProperty('innerHTML')
-            contenido_texto = await contenido.jsonValue()
-            print(contenido_texto)  # Imprimir el contenido interior de cada elemento
-    finally:
-        await browser.close()  # Asegurarse de que el navegador se cierre correctamente
+            elements = WebDriverWait(driver, 10).until( # Localizar elementos con el xpath proporcionado
+                EC.presence_of_all_elements_located((By.XPATH, '//div[@title="¡Haga click para detalles del partido!"]'))
+            )
+            lista_codigos=[]
+            for element in elements:  # Imprimir el id de los elementos encontrados
+                if len(lista_codigos) < 5: #añadir solo 5 elementos a la lista
+                    lista_codigos.append(element.get_attribute('id').replace('g_1_','') )            
+                dict_codigos[equipo] = lista_codigos
 
-async def main():
-    await codigo_flashcore()
+    driver.quit()    # Cerrar el navegador
+    
+    return dict_codigos
 
+
+
+    
+
+
+    
 
 if __name__ == "__main__":
-   # url_pagina_flashcore = 'https://www.flashscore.es/partido/'+codido_flashcore()+'/#/resumen-del-partido/estadisticas-del-partido/0'
     url='https://www.mundodeportivo.com/servicios/quiniela'
-    #print('#################################################### Partidos Quiniela ###############################################')
-    #print(extraer_informacion(url))
-    print('#################################################### Equipos Quiniela ###############################################')
-    #print(lista_partidos_quiniela())
-    asyncio.run(main())
+    print('#################################################### Partidos Quiniela ###############################################')
+    print(extraer_informacion(url))
+    print('#################################################### Equipos Quiniela  ###############################################')
+    print(lista_partidos_quiniela())
+    print('#################################################### Códigos Flashcore ###############################################')
+    print(codigo_flashcore())
