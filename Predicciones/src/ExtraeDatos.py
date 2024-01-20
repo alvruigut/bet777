@@ -11,6 +11,7 @@ import time
 
 
 
+
 def extraer_estadisticas():
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument('--headless')
