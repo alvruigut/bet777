@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import requests
+import time
 from lxml import html
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -7,7 +8,6 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-import time
 
 # Lee equipos.txt y devuelve una lista con los equipos de la Liga
 def lista_equipos():
@@ -101,33 +101,40 @@ def urls_estadisticas_equipos():
 #Base url_pagina_flashcore = 'https://www.flashscore.es/partido/'+codigo+'/#/resumen-del-partido/estadisticas-del-partido/0'
 #Códigos de las urls de las estadisticas de los partidos
 #Devuelve un diccionario con los codigos de los partidos de la quiniela
-def codigo_flashcore():
+
+
+def guardar_en_fichero(data, file='data\codigosFlashcore.txt'):
+    with open(file, 'w', encoding='utf-8') as file:
+        for equipo, codigos in data.items():
+            codigo = ', '.join(codigos)
+            file.write(f'{equipo}: [{codigo}]\n')
+
+def codigo_flashcore(n):
     dict_codigos = {}
     chrome_options = webdriver.ChromeOptions()
-    chrome_options.add_argument('--headless')  # Opción para ejecutar en segundo plano sin abrir una ventana del navegador
+    chrome_options.add_argument('--headless')  #Para cargar el contenido de la pagina sin abrir una ventana del navegador
     driver = webdriver.Chrome(options=chrome_options)
     for equipo,url in urls_estadisticas_equipos().items() :
         if equipo in lista_partidos_quiniela():
             driver.get(url)    # Acceder a la página web
-            time.sleep(10)     # Esperar 10 segundos (puedes ajustar este valor según sea necesario)
+            time.sleep(10)     
 
         
-            elements = WebDriverWait(driver, 10).until( # Localizar elementos con el xpath proporcionado
+            elements = WebDriverWait(driver, 10).until( # Localizar elementos con el xpath de la web
                 EC.presence_of_all_elements_located((By.XPATH, '//div[@title="¡Haga click para detalles del partido!"]'))
             )
             lista_codigos=[]
-            for element in elements:  # Imprimir el id de los elementos encontrados
-                if len(lista_codigos) < 5: #añadir solo 5 elementos a la lista
+            for index, element in enumerate(elements):
+                if index == 0:
+                    continue  # Saltar el primer elemento
+                if len(lista_codigos) < n: #Añadir solo 5 códigos a la lista
                     lista_codigos.append(element.get_attribute('id').replace('g_1_','') )            
                 dict_codigos[equipo] = lista_codigos
 
     driver.quit()    # Cerrar el navegador
-    
-    return dict_codigos
+    guardar_en_fichero(dict_codigos)  # Llamar a la función para guardar en el archivo
 
 
-
-    
 
 
     
@@ -139,4 +146,5 @@ if __name__ == "__main__":
     print('#################################################### Equipos Quiniela  ###############################################')
     print(lista_partidos_quiniela())
     print('#################################################### Códigos Flashcore ###############################################')
-    print(codigo_flashcore())
+    codigo_flashcore(2)
+    print('Los códigos se encuentra en: data/codigosFlashcore.txt')
