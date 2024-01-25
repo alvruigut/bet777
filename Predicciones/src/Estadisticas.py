@@ -13,7 +13,6 @@ def leer_codigo():
     
     with open('data\codigosFlashcore.txt', 'r', encoding='utf-8') as file:
         lineas = file.readlines()
-
     for linea in lineas:
         partes = linea.split(':')
         equipo = partes[0].strip()
@@ -21,6 +20,7 @@ def leer_codigo():
         dict_datos[equipo] = codigos
 
     return dict_datos
+
 
 
 def extraer_estadisticas():

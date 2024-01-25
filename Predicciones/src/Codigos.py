@@ -117,14 +117,17 @@ def codigo_flashcore(n):
     for equipo,url in urls_estadisticas_equipos().items() :
         if equipo in lista_partidos_quiniela():
             driver.get(url)    # Acceder a la página web
-            time.sleep(10)     
+            time.sleep(5)     
 
         
-            elements = WebDriverWait(driver, 10).until( # Localizar elementos con el xpath de la web
+            ids = WebDriverWait(driver, 5).until( # Localizar elementos con el xpath de la web
                 EC.presence_of_all_elements_located((By.XPATH, '//div[@title="¡Haga click para detalles del partido!"]'))
             )
+
+          #Quitar el index 0 y poner o buscar un estado para que solo añada los  finalizados  o arriba cogiendo el container de últimos resultados
+
             lista_codigos=[]
-            for index, element in enumerate(elements):
+            for index, element in enumerate(ids):
                 if index == 0:
                     continue  # Saltar el primer elemento
                 if len(lista_codigos) < n: #Añadir solo 5 códigos a la lista
@@ -143,8 +146,6 @@ if __name__ == "__main__":
     url='https://www.mundodeportivo.com/servicios/quiniela'
     print('#################################################### Partidos Quiniela ###############################################')
     print(extraer_informacion(url))
-    print('#################################################### Equipos Quiniela  ###############################################')
-    print(lista_partidos_quiniela())
     print('#################################################### Códigos Flashcore ###############################################')
-    codigo_flashcore(2)
+    codigo_flashcore(1)
     print('Los códigos se encuentra en: data/codigosFlashcore.txt')
