@@ -21,6 +21,15 @@ def leer_codigo():
 
     return dict_datos
 
+def guardar_estadisticas(estadisticas):
+    with open('data\estadisticasFlashcore.txt', 'w', encoding='utf-8') as file:
+        for equipo, codigos in estadisticas.items():
+            file.write(f'{equipo}:\n')
+            for codigo, datos in codigos.items():
+                file.write(f'\t{codigo}:\n')
+                file.write(f'\t\tEquipos: {datos["equipos"]}\n')
+                file.write(f'\t\tResultados: {datos["resultados"]}\n')
+                file.write(f'\t\tEstadísticas: {datos["estadisticas"]}\n')
 
 
 def extraer_estadisticas():
@@ -68,11 +77,11 @@ def extraer_estadisticas():
             estadisticas_equipos[codigo] = {'equipos': equipos, 'resultados': res, 'estadisticas': estadisticas}
 
         estadisticas_totales[equipo] = estadisticas_equipos
-
     driver.quit()
-    return estadisticas_totales
+    guardar_estadisticas(estadisticas_totales) 
 if __name__ == "__main__":
     print('#################################################### Códigos Flashcore ###############################################')
     print(leer_codigo())
     print('#################################################### Estadísticas Flashcore ###############################################')
     print(extraer_estadisticas())
+    print('Las estadísticas se encuentra en: data/estadisticasFlashcore.txt')

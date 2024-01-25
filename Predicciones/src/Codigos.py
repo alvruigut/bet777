@@ -8,22 +8,13 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from util.Equipos import *
 
-# Lee equipos.txt y devuelve una lista con los equipos de la Liga
-def lista_equipos():
-    lista_equipos= []
-     # Leer equipos desde el archivo
-    with open('data/equipos.txt', 'r',encoding='UTF-8') as archivo:
-        next(archivo) # Saltar la primera línea (cabecera)
-        for linea in archivo:
-            equipos = linea.strip().strip().split(',')
-            lista_equipos.extend(equipos)
-    return lista_equipos
 
 #Devuelve un diccionario con los partidos de la quiniela
 #param: url de la pagina web
 #return: {1: 'RAYO - LAS PALMAS', 2: 'GRANADA - AT.MADRID', 3: 'VALENCIA - ATH.CLUB', 4: 'CELTA - R.SOCIEDAD', 5: 'OSASUNA - GETAFE', 6: 'R.MADRID - ALMERÍA', 7: 'BETIS - BARCELONA', 8: 'GIRONA - SEVILLA', 9: 'ESPANYOL - VILLARREAL B', 10: 'TENERIFE - SPORTING', 11: 'R.FERROL - R.OVIEDO', 12: 'RACING S. - CARTAGENA', 13: 'HUESCA - EIBAR', 14: 'ELCHE - VALLADOLID', 16: 'MALLORCA'}
-def extraer_informacion(url):
+def extraer_equipos_quiniela(url):
     partidos = {}
     respuesta = requests.get(url) # Realizar la solicitud HTTP a la página web
     if respuesta.status_code == 200: # Comprobar solicitud (código 200)
@@ -43,7 +34,7 @@ def extraer_informacion(url):
     
 #Devuelve una lista con los partidos de la quiniela
 def lista_partidos_quiniela():
-    partidos = extraer_informacion(url)
+    partidos = extraer_equipos_quiniela(url)
     lista_partidos = []
     for x  in partidos.values():
         lista_partidos.append(x[0])
@@ -55,53 +46,13 @@ def lista_partidos_quiniela():
 #urls de estadisticas de los equipos 
 def urls_estadisticas_equipos():
     res={}
-    for equipo in lista_equipos():
-        if equipo == 'GIRONA':
-            res[equipo] = 'https://www.flashscore.es/equipo/girona-fc/nNNpcUSL/'
-        elif equipo == 'R.MADRID':
-            res[equipo] = 'https://www.flashscore.es/equipo/real-madrid/W8mj7MDD/'
-        elif equipo == 'ATH.CLUB':
-            res[equipo] = 'https://www.flashscore.es/equipo/athletic-club/IP5zl0cJ/'
-        elif equipo == 'BARCELONA':
-            res[equipo] = 'https://www.flashscore.es/equipo/fc-barcelona/SKbpVP5K/'
-        elif equipo == 'AT.MADRID':
-            res[equipo] = 'https://www.flashscore.es/equipo/atletico-madrid/jaarqpLQ/'
-        elif equipo == 'R.SOCIEDAD':
-            res[equipo] = 'https://www.flashscore.es/equipo/real-sociedad/jNvak2f3/'
-        elif equipo == 'BETIS':
-            res[equipo] = 'https://www.flashscore.es/equipo/real-betis/vJbTeCGP/'
-        elif equipo == 'VALENCIA':
-            res[equipo] = 'https://www.flashscore.es/equipo/valencia-cf/CQeaytrD/'
-        elif equipo == 'CÁDIZ':
-            res[equipo] = 'https://www.flashscore.es/equipo/cadiz-cf/hdWjLJUJ/'
-        elif equipo == 'GRANADA':
-            res[equipo] = 'https://www.flashscore.es/equipo/granada/EXuxl1xP/'
-        elif equipo == 'ALMERÍA':
-            res[equipo] = 'https://www.flashscore.es/equipo/ud-almeria/nF2Vy2D0/'
-        elif equipo == 'SEVILLA':
-            res[equipo] = 'https://www.flashscore.es/equipo/sevilla/h8oAv4Ts/'
-        elif equipo == 'CELTA':
-            res[equipo] = 'https://www.flashscore.es/equipo/celta-vigo/8pvUZFhf/'
-        elif equipo == 'VILLARREAL':
-            res[equipo] = 'https://www.flashscore.es/equipo/villarreal-cf/lUatW5jE/'
-        elif equipo == 'MALLORCA':
-            res[equipo] = 'https://www.flashscore.es/equipo/rcd-mallorca/4jDQxrbf/'
-        elif equipo == 'OSASUNA':
-            res[equipo] = 'https://www.flashscore.es/equipo/ca-osasuna/ETdxjU8a/'
-        elif equipo == 'GETAFE':
-            res[equipo] = 'https://www.flashscore.es/equipo/getafe-cf/dboeiWOt/'
-        elif equipo == 'LAS PALMAS':
-            res[equipo] = 'https://www.flashscore.es/equipo/las-palmas/IyRQC2vM/'
-        elif equipo == 'RAYO':
-            res[equipo] = 'https://www.flashscore.es/equipo/rayo-vallecano/8bcjFy6O/'
-        elif equipo == 'ALAVÉS':
-            res[equipo] = 'https://www.flashscore.es/equipo/alaves/hxt57t2q/'
-    return res
+    for equipo in lista_equipos_primera():
+        res.update(parsear_nombres_url(equipo))
+    return res    
 
 #Base url_pagina_flashcore = 'https://www.flashscore.es/partido/'+codigo+'/#/resumen-del-partido/estadisticas-del-partido/0'
 #Códigos de las urls de las estadisticas de los partidos
 #Devuelve un diccionario con los codigos de los partidos de la quiniela
-
 
 def guardar_en_fichero(data, file='data\codigosFlashcore.txt'):
     with open(file, 'w', encoding='utf-8') as file:
@@ -117,15 +68,12 @@ def codigo_flashcore(n):
     for equipo,url in urls_estadisticas_equipos().items() :
         if equipo in lista_partidos_quiniela():
             driver.get(url)    # Acceder a la página web
-            time.sleep(5)     
+            time.sleep(5) 
 
-        
             ids = WebDriverWait(driver, 5).until( # Localizar elementos con el xpath de la web
                 EC.presence_of_all_elements_located((By.XPATH, '//div[@title="¡Haga click para detalles del partido!"]'))
             )
-
           #Quitar el index 0 y poner o buscar un estado para que solo añada los  finalizados  o arriba cogiendo el container de últimos resultados
-
             lista_codigos=[]
             for index, element in enumerate(ids):
                 if index == 0:
@@ -145,7 +93,7 @@ def codigo_flashcore(n):
 if __name__ == "__main__":
     url='https://www.mundodeportivo.com/servicios/quiniela'
     print('#################################################### Partidos Quiniela ###############################################')
-    print(extraer_informacion(url))
+    print(extraer_equipos_quiniela(url))
     print('#################################################### Códigos Flashcore ###############################################')
-    codigo_flashcore(1)
+    codigo_flashcore(2) #Numero de codigos que queremos que nos devuelva por equipo
     print('Los códigos se encuentra en: data/codigosFlashcore.txt')

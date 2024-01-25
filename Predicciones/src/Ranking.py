@@ -6,6 +6,11 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 import time
 
+def guardar_ranking(ranking):
+    with open('data\estadisticasFlashcore.txt', 'w', encoding='utf-8') as file:
+        file.write('Ranking:\n')
+        for posicion, equipo in ranking.items():
+            file.write(f'{posicion}:{equipo} \n')
 
 def extrae_posiciones_liga(url):
     ranking={}
@@ -38,7 +43,7 @@ def extrae_posiciones_liga(url):
             valor='RAYO'
         ranking[ind]=valor
     driver.quit()
-    return ranking
+    guardar_ranking(ranking)
 
 if __name__ == "__main__":
     url='https://www.mundodeportivo.com/resultados/futbol/laliga/clasificacion'
