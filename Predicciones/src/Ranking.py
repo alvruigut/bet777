@@ -7,7 +7,7 @@ from selenium.webdriver.common.by import By
 import time
 
 def guardar_ranking(ranking):
-    with open('data\estadisticasFlashcore.txt', 'w', encoding='utf-8') as file:
+    with open('data\estadisticasFlashcoreRanking.txt', 'w', encoding='utf-8') as file:
         file.write('Ranking:\n')
         for posicion, equipo in ranking.items():
             file.write(f'{posicion}:{equipo} \n')
