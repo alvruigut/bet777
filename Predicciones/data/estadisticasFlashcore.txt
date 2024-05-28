@@ -1,18 +1,18 @@
 GIRONA:
-	WU3kaX1d:
-		Equipos: ['Girona', 'Sevilla']
-		Resultados: [5, 1]
-		Estadísticas: {'goles_esperados': [2.69, 0.72], 'posesión_de_balón': [55, 45], 'remates': [12, 9], 'remates_a_puerta': [8, 3], 'remates_fuera': [3, 3], 'remates_rechazados': [1, 3], 'tiros_libres': [10, 7], 'córneres': [4, 5], 'fueras_de_juego': [1, 1], 'saques_de_banda': [7, 18], 'paradas': [2, 3], 'faltas': [9, 11], 'tarjetas_amarillas': [0, 2], 'ataques': [72, 115], 'ataques_peligrosos': [38, 55]}
-	SnhL4mnt:
-		Equipos: ['Girona', 'Rayo Vallecano']
-		Resultados: [3, 1]
-		Estadísticas: {'goles_esperados': [2.8, 1.48], 'posesión_de_balón': [55, 45], 'remates': [16, 18], 'remates_a_puerta': [8, 4], 'remates_fuera': [5, 8], 'remates_rechazados': [3, 6], 'tiros_libres': [12, 13], 'córneres': [3, 7], 'fueras_de_juego': [2, 0], 'saques_de_banda': [15, 17], 'paradas': [3, 5], 'faltas': [11, 12], 'tarjetas_amarillas': [1, 1], 'ataques': [107, 99], 'ataques_peligrosos': [46, 46]}
+	zN6FzfO2:
+		Equipos: ['Celta de Vigo', 'Girona']
+		Resultados: [0, 1]
+		Estadísticas: {'goles_esperados': [0.75, 1.07], 'posesión_de_balón': [40, 60], 'remates': [10, 15], 'remates_a_puerta': [5, 6], 'remates_fuera': [4, 5], 'remates_rechazados': [1, 4], 'tiros_libres': [11, 12], 'córneres': [5, 7], 'fueras_de_juego': [1, 1], 'saques_de_banda': [19, 21], 'paradas': [5, 5], 'faltas': [13, 11], 'tarjetas_amarillas': [1, 1], 'ataques': [91, 111], 'ataques_peligrosos': [41, 47]}
+	0Ykv44up:
+		Equipos: ['Mallorca', 'Girona']
+		Resultados: [3, 2]
+		Estadísticas: {'goles_esperados': [2.35, 3.06], 'posesión_de_balón': [25, 75], 'remates': [11, 16], 'remates_a_puerta': [6, 5], 'remates_fuera': [4, 9], 'remates_rechazados': [1, 2], 'tiros_libres': [8, 19], 'córneres': [3, 7], 'fueras_de_juego': [2, 3], 'saques_de_banda': [5, 20], 'paradas': [3, 3], 'faltas': [17, 5], 'tarjetas_rojas': [1, 0], 'tarjetas_amarillas': [7, 2], 'ataques': [57, 130], 'ataques_peligrosos': [24, 72]}
 R.MADRID:
-	GAuEdjfJ:
-		Equipos: ['Atlético de Madrid', 'Real Madrid']
-		Resultados: [4, 2]
-		Estadísticas: {'goles_esperados': [3.11, 2.0], 'posesión_de_balón': [41, 59], 'remates': [18, 17], 'remates_a_puerta': [12, 9], 'remates_fuera': [3, 4], 'remates_rechazados': [3, 4], 'tiros_libres': [15, 24], 'córneres': [0, 9], 'fueras_de_juego': [3, 2], 'saques_de_banda': [23, 24], 'paradas': [7, 8], 'faltas': [21, 13], 'tarjetas_amarillas': [6, 6], 'ataques': [98, 190], 'ataques_peligrosos': [42, 92]}
-	4MdCNZlj:
-		Equipos: ['Real Madrid', 'Barcelona']
-		Resultados: [4, 1]
-		Estadísticas: {'goles_esperados': [3.07, 1.17], 'posesión_de_balón': [42, 58], 'remates': [18, 12], 'remates_a_puerta': [9, 7], 'remates_fuera': [9, 5], 'tiros_libres': [12, 10], 'córneres': [3, 4], 'fueras_de_juego': [0, 0], 'saques_de_banda': [12, 18], 'paradas': [6, 5], 'faltas': [10, 12], 'tarjetas_rojas': [0, 1], 'tarjetas_amarillas': [2, 3], 'ataques': [87, 110], 'ataques_peligrosos': [72, 83]}
+	GbB77efG:
+		Equipos: ['Getafe', 'Real Madrid']
+		Resultados: [0, 2]
+		Estadísticas: {'goles_esperados': [0.8, 1.92], 'posesión_de_balón': [42, 58], 'remates': [10, 16], 'remates_a_puerta': [2, 9], 'remates_fuera': [7, 5], 'remates_rechazados': [1, 2], 'tiros_libres': [9, 18], 'córneres': [2, 6], 'fueras_de_juego': [1, 4], 'saques_de_banda': [21, 11], 'paradas': [7, 2], 'faltas': [16, 5], 'tarjetas_amarillas': [1, 2], 'ataques': [116, 75], 'ataques_peligrosos': [38, 42]}
+	Wl0OYXhF:
+		Equipos: ['Las Palmas', 'Real Madrid']
+		Resultados: [1, 2]
+		Estadísticas: {'goles_esperados': [0.6, 2.13], 'posesión_de_balón': [53, 47], 'remates': [7, 13], 'remates_a_puerta': [2, 5], 'remates_fuera': [4, 5], 'remates_rechazados': [1, 3], 'tiros_libres': [13, 14], 'córneres': [1, 6], 'fueras_de_juego': [0, 3], 'saques_de_banda': [13, 13], 'paradas': [3, 1], 'faltas': [17, 14], 'tarjetas_amarillas': [3, 3], 'ataques': [61, 110], 'ataques_peligrosos': [26, 58]}

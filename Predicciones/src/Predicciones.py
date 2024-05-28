@@ -39,3 +39,16 @@ def mapa_prediccion(predicciones, equipoLocal, equipoVisitante):
             else:
                 dicc[clave] = {res}
     return dicc
+
+
+def pronosticoLidia():
+    return null
+
+def pronosticoCampins():
+    return null
+
+def pronosticoAlvaro():
+    return null
+
+def pronosticoCombinado():
+    return null
