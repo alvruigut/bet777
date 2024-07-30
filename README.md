@@ -32,14 +32,6 @@ Para ejecutar Predicciones LaLiga, necesitas instalar las siguientes librerías 
     pip install beautifulsoup4 requests
     ```
 
-## Uso
-
-1. Ejecuta el script principal:
-    ```sh
-    python main.py
-    ```
-
-2. Sigue las instrucciones en la consola para iniciar el proceso de extracción y análisis de datos.
 
 ## Notas
 
